@@ -7,10 +7,11 @@ import {
 } from '@anthropic-ai/claude-agent-sdk'
 import { type ServerWebSocket } from 'bun'
 
+import { SERVER_PORT, WORKSPACE_DIR_NAME } from './const'
 import { handleMessage } from './message-handler'
 import { type QueryConfig, type WSOutputMessage } from './message-types'
 
-const workspaceDirectory = join(homedir(), 'agent-workspace')
+const workspaceDirectory = join(homedir(), WORKSPACE_DIR_NAME)
 
 // Single WebSocket connection (only one allowed)
 let activeConnection: ServerWebSocket | null = null
@@ -82,7 +83,7 @@ async function processMessages() {
 
 // Create WebSocket server
 const server = Bun.serve({
-  port: 3000,
+  port: SERVER_PORT,
   fetch(req, server) {
     const url = new URL(req.url)
 

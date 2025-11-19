@@ -6,6 +6,8 @@
 
 import { Sandbox } from 'e2b'
 
+import { E2B_TEMPLATE_ALIAS, SERVER_PORT } from './const'
+
 // Check for required environment variables
 if (!process.env.E2B_API_KEY) {
   console.error('❌ E2B_API_KEY environment variable is required')
@@ -20,7 +22,7 @@ if (!process.env.ANTHROPIC_API_KEY) {
 console.log('🚀 Creating E2B sandbox from claude-agent-server template...')
 
 // Create a sandbox from the built template
-const sandbox = await Sandbox.create('claude-agent-server', {
+const sandbox = await Sandbox.create(E2B_TEMPLATE_ALIAS, {
   apiKey: process.env.E2B_API_KEY,
   timeoutMs: 5 * 60 * 1000, // 5 minutes
 })
@@ -28,7 +30,7 @@ const sandbox = await Sandbox.create('claude-agent-server', {
 console.log(`✅ Sandbox created: ${sandbox.sandboxId}`)
 
 // Get the sandbox URL using the getHost method
-const sandboxHost = sandbox.getHost(3000)
+const sandboxHost = sandbox.getHost(SERVER_PORT)
 const configUrl = `https://${sandboxHost}/config`
 const wsUrl = `wss://${sandboxHost}/ws`
 
