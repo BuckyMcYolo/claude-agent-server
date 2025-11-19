@@ -3,11 +3,12 @@
 import { defaultBuildLogger, Template, waitForPort } from 'e2b'
 
 const template = Template()
-  .fromBaseImage()
-  .gitClone('https://github.com/dzhng/claude-agent-server', '/app', {
+  .fromBunImage('1.3')
+  .runCmd('sudo apt install -y git')
+  .gitClone('https://github.com/dzhng/claude-agent-server', 'app', {
     branch: 'main',
   })
-  .setWorkdir('/app')
+  .setWorkdir('app')
   .runCmd('bun install')
   .setStartCmd('bun index.ts', waitForPort(3000))
 
