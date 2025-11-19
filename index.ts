@@ -1,5 +1,7 @@
 import { query, type SDKUserMessage, type Options, type AgentDefinition } from '@anthropic-ai/claude-agent-sdk';
 import { type ServerWebSocket } from 'bun';
+import { homedir } from 'os';
+import { join } from 'path';
 
 // WebSocket message types
 export type WSInputMessage = {
@@ -56,7 +58,7 @@ async function processMessages() {
       permissionMode: 'bypassPermissions',
       allowDangerouslySkipPermissions: true,
       settingSources: ['local'],
-      cwd: '~/agent-workspace',
+      cwd: join(homedir(), 'agent-workspace'),
       ...queryConfig,
     };
 
