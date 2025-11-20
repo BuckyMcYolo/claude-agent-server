@@ -1,6 +1,6 @@
 {
   "name": "@dzhng/claude-agent",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Client library for Claude Agent Server with E2B sandbox support",
   "keywords": [
     "claude",
