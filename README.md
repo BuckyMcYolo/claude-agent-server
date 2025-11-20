@@ -4,6 +4,8 @@
 
 A WebSocket server that wraps the Claude Agent SDK, allowing real-time bidirectional communication with Claude through WebSockets. Deploy it as an E2B sandbox and connect via the TypeScript client library.
 
+[Launch tweet / discussion](https://x.com/dzhng/status/1991154972558581889?s=20)
+
 ## Overview
 
 **Typical Workflow:**
