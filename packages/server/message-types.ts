@@ -36,4 +36,6 @@ export type QueryConfig = {
   model?: string
   mcpServers?: Record<string, McpRemoteServerConfig>
   anthropicApiKey?: string
+  /** Client ID for row-level security - written to protected file on config */
+  clientId?: string
 }

@@ -8,10 +8,17 @@ import {
 import { type ServerWebSocket } from 'bun'
 
 import { SERVER_PORT, WORKSPACE_DIR_NAME } from './const'
+
+// Protected directory for config files (outside workspace, not accessible to Claude)
+const CONFIG_DIR = join(homedir(), '.agent-config')
+const CLIENT_ID_FILE = join(CONFIG_DIR, 'client_id')
 import { handleMessage } from './message-handler'
 import { type QueryConfig, type WSOutputMessage } from './message-types'
 
 const workspaceDirectory = join(homedir(), WORKSPACE_DIR_NAME)
+
+// Ensure config directory exists
+await Bun.write(join(CONFIG_DIR, '.keep'), '')
 
 // Single WebSocket connection (only one allowed)
 let activeConnection: ServerWebSocket | null = null
@@ -59,7 +66,7 @@ async function processMessages() {
       ...queryConfig,
       ...(queryConfig.anthropicApiKey && {
         env: {
-          PATH: process.env.PATH,
+          ...process.env,
           ANTHROPIC_API_KEY: queryConfig.anthropicApiKey,
         },
       }),
@@ -103,8 +110,16 @@ const server = Bun.serve({
     if (url.pathname === '/config' && req.method === 'POST') {
       return req
         .json()
-        .then(config => {
+        .then(async config => {
           queryConfig = config as QueryConfig
+
+          // Write client_id to protected file if provided
+          // This file is outside the workspace, so Claude can't modify it
+          if (queryConfig.clientId) {
+            await Bun.write(CLIENT_ID_FILE, queryConfig.clientId)
+            console.log(`Client ID set: ${queryConfig.clientId}`)
+          }
+
           return Response.json({ success: true, config: queryConfig })
         })
         .catch(() => {
