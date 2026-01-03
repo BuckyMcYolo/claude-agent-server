@@ -54,6 +54,7 @@ async function processMessages() {
       allowDangerouslySkipPermissions: true,
       settingSources: ['project'],
       cwd: workspaceDirectory,
+      includePartialMessages: true,
       stderr: data => {
         if (activeConnection) {
           const output: WSOutputMessage = {

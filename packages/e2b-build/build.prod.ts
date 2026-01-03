@@ -33,8 +33,7 @@ const template = Template()
   // AWS SDK for S3 uploads
   .runCmd('pip3 install --break-system-packages boto3')
   .skipCache()
-  // TODO: Update to your fork URL
-  .gitClone('https://github.com/YOUR_USERNAME/claude-agent-server', '/home/user/app', {
+  .gitClone('https://github.com/BuckyMcYolo/claude-agent-server', '/home/user/app', {
     branch: 'main',
   })
   .setWorkdir('/home/user/app')
